@@ -1,18 +1,19 @@
 class Api::SessionsController < ApplicationController
   def show
+    banana
     @user = current_user
     if @user
-      render json: { user: current_user }
+      render 'api/users/show'
     else
       render json: { user: nil }
     end
   end
 
   def create
-    @user = User.find_by_credentials(params[:credential], params[:password])
+    @user = User.find_by_credentials(params[:username] || params[:email], params[:password])
     if @user
       login!(@user)
-      render json: { user: @user }
+      render 'api/users/show'
     else
       render json: { errors: ['Invalid credentials'], status: :unauthorized }
     end
@@ -26,5 +27,5 @@ class Api::SessionsController < ApplicationController
     end
   end
 
-  
+
 end
