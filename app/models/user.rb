@@ -13,8 +13,14 @@ class User < ApplicationRecord
 
   before_validation :ensure_session_token
 
-  def self.find_by_credentials(username, password)
-    user = User.find_by(username: username) #need to include email possibility
+  def self.find_by_credentials(credential, password)
+    if credential.match?(URI::MailTo::EMAIL_REGEXP)
+      email = credential
+      user = User.find_by(email: email) #need to include email possibility
+    else
+      username = credential
+      user = User.find_by(username: username) #need to include email possibility
+    end
     return user&.authenticate(password)
   end
 
