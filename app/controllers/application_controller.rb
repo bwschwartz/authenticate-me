@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
   rescue_from ActionController::InvalidAuthenticityToken,
     with: :invalid_authenticity_token
 
-
   def current_user
     @current_user ||= User.find_by(session_token: session[:session_token])
   end
@@ -32,7 +31,6 @@ class ApplicationController < ActionController::API
 
 
   def test
-    debugger
     if params.has_key?(:login)
       login!(User.first)
     elsif params.has_key?(:logout)

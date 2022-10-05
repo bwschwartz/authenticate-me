@@ -1,6 +1,5 @@
 class Api::SessionsController < ApplicationController
   def show
-    banana
     @user = current_user
     if @user
       render 'api/users/show'
